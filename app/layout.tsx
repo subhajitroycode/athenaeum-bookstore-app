@@ -6,6 +6,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
+import ThemeProvider from "./components/ThemeProvider";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -41,8 +42,10 @@ export default function RootLayout({
       <body
         className={`${playfairDisplay.variable} ${cormorantGaramond.variable} ${DMSans.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <ThemeProvider>
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
