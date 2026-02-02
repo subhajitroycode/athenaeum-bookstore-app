@@ -46,10 +46,10 @@ const Header = () => {
             )}
           </button>
           <Link
-            href="/login"
+            href="/auth?tab=signin"
             className="font-sans bg-transparent border-[1.5px] border-(--border-color) text-(--text-primary) px-[1.8rem] py-[0.6rem] cursor-pointer text-sm tracking-wider uppercase transition-all duration-300 ease-in hover:bg-(--accent) hover:border-(--accent) hover:text-white hover:-translate-y-0.5 hover:shadow-[0_4px_12px_var(--shadow)]"
           >
-            Login
+            Sign In
           </Link>
         </div>
       </div>

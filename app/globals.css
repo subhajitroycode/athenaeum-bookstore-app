@@ -49,6 +49,19 @@
       transform: translateY(0);
     }
   }
+
+  --animate-slide-in-left: slide-in-left 0.4s ease forwards;
+
+  @keyframes slide-in-left {
+    0% {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 }
 
 body {

@@ -1,3 +1,6 @@
+import AuthTabs from "@/app/auth/_components/AuthTabs";
+import { Suspense } from "react";
+
 function page() {
   return (
     <section className="flex flex-1 items-center justify-center py-12 px-8 animate-fade-in-scale">
@@ -39,6 +42,14 @@ function page() {
               Create an account or sign in to continue
             </p>
           </div>
+
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center">Loading...</div>
+            }
+          >
+            <AuthTabs />
+          </Suspense>
         </div>
       </div>
     </section>
