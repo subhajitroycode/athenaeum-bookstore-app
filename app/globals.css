@@ -3,11 +3,14 @@
 :root {
   --bg-primary: #fdfbf7;
   --bg-secondary: #f5f1ea;
+  --bg-error: #fef2f2;
   --text-primary: #1a1410;
   --text-secondary: #5a5248;
+  --text-error: #9f0712;
   --accent: #8b4513;
   --accent-light: #c4753f;
   --border: #e5dfd5;
+  --border-error: #ffc9c9;
   --shadow: rgba(26, 20, 16, 0.08);
   --card-bg: #ffffff;
 }
@@ -15,11 +18,14 @@
 .dark {
   --bg-primary: #1a1410;
   --bg-secondary: #252119;
+  --bg-error: #82181a33;
   --text-primary: #f5f1ea;
   --text-secondary: #b8ae9f;
+  --text-error: #ffc9c9;
   --accent: #d4945a;
   --accent-light: #e6b082;
   --border: #3a342a;
+  --border-error: #9f0712;
   --shadow: rgba(0, 0, 0, 0.3);
   --card-bg: #2a2419;
 }
@@ -30,11 +36,14 @@
   --font-sans: var(--font-dm-sans);
   --bg-primary: var(--bg-primary);
   --bg-secondary: var(--bg-secondary);
+  --bg-error: var(--bg-error);
   --text-primary: var(--text-primary);
   --text-secondary: var(--text-secondary);
+  --text-error: var(--text-error);
   --accent: var(--accent);
   --accent-light: var(--accent-light);
   --border-color: var(--border);
+  --border-error: var(--border-error);
   --shadow-color: var(--shadow);
   --color-card: var(--card-bg);
   --animate-fade-in-scale: fade-in-scale 0.8s ease;
