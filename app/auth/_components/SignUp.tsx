@@ -1,87 +1,29 @@
-import { authClient } from "@/lib/auth-client";
+import { signInWithSocial, signUpWithEmail } from "@/app/actions/auth";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 
 const SignUp = () => {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [hidePassword, setHidePassword] = useState({
     password: true,
     confirmPassword: true,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const { data, error } = await authClient.signUp.email({
-        email: formData.email,
-        password: formData.password,
-        name: `${formData.firstName} ${formData.lastName}`,
-      });
-
-      if (error) {
-        setError(error.message || "Failed to create account");
-        return;
-      }
-
-      router.push("/");
-    } catch (err) {
-      setError("An unexpected error occurred");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSocialSignUp = async (provider: "google" | "github") => {
-    setError("");
-    setLoading(true);
-
-    try {
-      const { error } = await authClient.signIn.social({
-        provider,
-        callbackURL: "/",
-      });
-      if (error) {
-        setError(error.message || `Failed to sign up with ${provider}`);
-        return;
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [state, formAction, isPending] = useActionState(signUpWithEmail, {
+    success: true,
+    error: undefined,
+    fields: {
+      email: "",
+      firstName: "",
+      lastName: "",
+    },
+  });
 
   return (
     <div className="animate-slide-in-left">
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-        {error && (
+      <form className="flex flex-col gap-6" action={formAction}>
+        {state.error && (
           <div className="bg-(--bg-error) text-(--text-error) border border-(--border-error) px-4 py-3">
-            {error}
+            {state.error}
           </div>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -97,8 +39,7 @@ const SignUp = () => {
               name="firstName"
               id="firstName"
               placeholder="John"
-              value={formData.firstName}
-              onChange={handleChange}
+              defaultValue={state.fields?.firstName}
               className="py-[0.9rem] px-[1.2rem] border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
               required
             />
@@ -115,8 +56,7 @@ const SignUp = () => {
               name="lastName"
               id="lastName"
               placeholder="Doe"
-              value={formData.lastName}
-              onChange={handleChange}
+              defaultValue={state.fields?.lastName}
               className="py-[0.9rem] px-[1.2rem] border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
             />
           </div>
@@ -134,8 +74,7 @@ const SignUp = () => {
             id="email"
             name="email"
             placeholder="you@example.com"
-            value={formData.email}
-            onChange={handleChange}
+            defaultValue={state.fields?.email}
             className="py-[0.9rem] px-[1.2rem] border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
             required
           />
@@ -153,8 +92,6 @@ const SignUp = () => {
             id="password"
             name="password"
             placeholder="Create a strong password"
-            value={formData.password}
-            onChange={handleChange}
             className="py-[0.9rem] pl-[1.2rem] pr-12 border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
             required
           />
@@ -181,8 +118,6 @@ const SignUp = () => {
             id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm your password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
             className="py-[0.9rem] pl-[1.2rem] pr-12 border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
             required
           />
@@ -202,10 +137,10 @@ const SignUp = () => {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={isPending}
           className="font-sans bg-(--accent) text-white py-4 px-8 cursor-pointer text-[0.95rem] uppercase tracking-widest font-medium mt-2 relative overflow-hidden transition-all duration-300 ease-in before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-[left] before:duration-500 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow)] hover:before:left-full"
         >
-          {loading ? "Creating Account..." : "Create Account"}
+          {isPending ? "Creating Account..." : "Create Account"}
         </button>
 
         <div className="flex items-center gap-4 my-6 mx-0 before:content-[''] before:flex-1 before:h-px before:bg-(--border-color) after:content-[''] after:flex-1 after:h-px after:bg-(--border-color)">
@@ -218,7 +153,7 @@ const SignUp = () => {
           <button
             type="button"
             className="font-sans border-[1.5px] border-(--border-color) text-(--text-primary) py-3 px-6 cursor-pointer text-[0.9rem] transition-all duration-300 flex items-center justify-center gap-3 hover:border-(--accent) hover:bg-(--bg-primary) hover:-translate-y-0.5"
-            onClick={() => handleSocialSignUp("google")}
+            onClick={() => signInWithSocial("google")}
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" />
@@ -231,7 +166,7 @@ const SignUp = () => {
           <button
             type="button"
             className="font-sans border-[1.5px] border-(--border-color) text-(--text-primary) py-3 px-6 cursor-pointer text-[0.9rem] transition-all duration-300 flex items-center justify-center gap-3 hover:border-(--accent) hover:bg-(--bg-primary) hover:-translate-y-0.5"
-            onClick={() => handleSocialSignUp("github")}
+            onClick={() => signInWithSocial("github")}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />

@@ -1,7 +1,8 @@
 import { authClient } from "@/lib/auth-client";
-import { LogOut, UserCircle2 } from "lucide-react";
+import { LogOut, UserCircle2, UserRoundPen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { signOutApp } from "../actions/auth";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +26,22 @@ const UserDropdown = () => {
     };
   }, [isOpen]);
 
-  const handleSignout = async () => {
-    await authClient.signOut();
+  const handleSignout = () => {
+    signOutApp();
     setIsOpen(false);
     router.push("/");
+  };
+
+  const handleNavigation = () => {
+    setIsOpen(false);
+
+    const userRole = (session?.user as any).role;
+
+    if (userRole === "admin") {
+      router.push("/admin");
+    } else {
+      router.push("/user");
+    }
   };
 
   return (
@@ -43,24 +56,17 @@ const UserDropdown = () => {
 
       {isOpen && (
         <div className="absolute right-0 mt-3 w-64 bg-card border-[1.5px] border-(--border-color) shadow-[0_8px_24px_var(--shadow)] animate-slide-in-top z-50">
-          <div className="p-5 border-b border-(--border-color)">
-            <div className="flex items-center gap-3 mb-2">
-              <UserCircle2 className="w-10 h-10 text-(--accent)" />
-              <div className="flex-1 min-w-0">
-                <p className="font-sans text-sm font-medium text-(--text-primary) truncate">
-                  {session?.user.name || "User"}
-                </p>
-                <p className="font-sans text-xs text-(--text-secondary) truncate">
-                  {session?.user.email}
-                </p>
-              </div>
-            </div>
-          </div>
-
           <div className="p-2">
             <button
-              onClick={handleSignout}
               className="w-full font-sans flex items-center gap-3 px-4 py-3 text-sm text-(--text-primary) transition-all duration-200 hover:bg-(--bg-secondary) hover:text-(--accent) cursor-pointer"
+              onClick={handleNavigation}
+            >
+              <UserRoundPen className="w-4 h-4" />
+              <span>Profile</span>
+            </button>
+            <button
+              onClick={handleSignout}
+              className="w-full font-sans flex items-center gap-3 px-4 py-3 text-sm text-(--text-primary) transition-all duration-200 hover:bg-(--bg-error) hover:text-(--text-error) cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
               {isPending ? <span>Signing Out...</span> : <span>Sign Out</span>}

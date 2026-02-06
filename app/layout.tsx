@@ -27,7 +27,10 @@ const DMSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Athenaeum - Literary Collections",
+  title: {
+    template: "%s | Athenaeum",
+    default: "Athenaeum - Literary Collections",
+  },
   description:
     "Discover a world of books at Athenaeum. Explore our extensive collection, read reviews, and find your next great read.",
 };

@@ -1,76 +1,23 @@
-import { authClient } from "@/lib/auth-client";
+import { signInWithEmail, signInWithSocial } from "@/app/actions/auth";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 
 const SignIn = () => {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const { data, error } = await authClient.signIn.email({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      if (error) {
-        setError(error.message || "Failed to sign in");
-        return;
-      }
-
-      router.push("/");
-    } catch (err) {
-      setError("An unexpected error occurred");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSocialSignIn = async (provider: "google" | "github") => {
-    setError("");
-    setLoading(true);
-    try {
-      const { error } = await authClient.signIn.social({
-        provider,
-        callbackURL: "/",
-      });
-      if (error) {
-        setError(error.message || `Failed to sign in with ${provider}`);
-        return;
-      }
-    } catch (err) {
-      setError("An unexpected error occurred");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [state, formAction, isPending] = useActionState(signInWithEmail, {
+    success: true,
+    error: undefined,
+    fields: {
+      email: "",
+    },
+  });
 
   return (
     <div className="animate-slide-in-left">
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-        {error && (
+      <form className="flex flex-col gap-6" action={formAction}>
+        {state?.error && (
           <div className="bg-(--bg-error) text-(--text-error) border border-(--border-error) px-4 py-3">
-            {error}
+            {state.error}
           </div>
         )}
         <div className="flex flex-col gap-2">
@@ -85,8 +32,7 @@ const SignIn = () => {
             name="email"
             type="email"
             placeholder="you@example.com"
-            value={formData.email}
-            onChange={handleChange}
+            defaultValue={state?.fields?.email}
             className="py-[0.9rem] px-[1.2rem] border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
             required
           />
@@ -104,8 +50,6 @@ const SignIn = () => {
             id="password"
             name="password"
             placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
             className="py-[0.9rem] pl-[1.2rem] pr-12 border-[1.5px] border-(--border-color) bg-(--bg-primary) text-(--text-primary) outline-none transition-all duration-300 ease-in focus:border-(--accent) focus:shadow-[0_0_0_3px_rgba(139,69,19,0.1)] placeholder:text-(--text-secondary) placeholder:opacity-50"
             required
           />
@@ -120,10 +64,10 @@ const SignIn = () => {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={isPending}
           className="font-sans bg-(--accent) text-white py-4 px-8 cursor-pointer text-[0.95rem] uppercase tracking-widest font-medium mt-2 relative overflow-hidden transition-all duration-300 ease-in before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-[left] before:duration-500 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow)] hover:before:left-full"
         >
-          {loading ? "Signing In..." : "Sign In"}
+          {isPending ? "Signing In..." : "Sign In"}
         </button>
 
         <div className="flex items-center gap-4 my-6 mx-0 before:content-[''] before:flex-1 before:h-px before:bg-(--border-color) after:content-[''] after:flex-1 after:h-px after:bg-(--border-color)">
@@ -135,8 +79,7 @@ const SignIn = () => {
         <div className="flex flex-col gap-3">
           <button
             type="button"
-            disabled={loading}
-            onClick={() => handleSocialSignIn("google")}
+            onClick={() => signInWithSocial("google")}
             className="font-sans border-[1.5px] border-(--border-color) text-(--text-primary) py-3 px-6 cursor-pointer text-[0.9rem] transition-all duration-300 flex items-center justify-center gap-3 hover:border-(--accent) hover:bg-(--bg-primary) hover:-translate-y-0.5"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
@@ -149,8 +92,7 @@ const SignIn = () => {
           </button>
           <button
             type="button"
-            disabled={loading}
-            onClick={() => handleSocialSignIn("github")}
+            onClick={() => signInWithSocial("github")}
             className="font-sans border-[1.5px] border-(--border-color) text-(--text-primary) py-3 px-6 cursor-pointer text-[0.9rem] transition-all duration-300 flex items-center justify-center gap-3 hover:border-(--accent) hover:bg-(--bg-primary) hover:-translate-y-0.5"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">

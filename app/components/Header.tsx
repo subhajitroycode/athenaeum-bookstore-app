@@ -12,15 +12,15 @@ const Header = () => {
 
   return (
     <header className="bg-card border-b border-(--border-color) sticky top-0 z-50 backdrop-blur-md transition-all duration-400 ease-in">
-      <div className="max-w-350 mx-auto py-5 px-8 lg:py-6 lg:px-12 flex flex-wrap lg:flex-nowrap items-center justify-between gap-8">
+      <div className="max-w-350 mx-auto py-5 px-4 sm:px-8 lg:py-6 lg:px-12 flex flex-wrap lg:flex-nowrap items-center justify-between gap-y-2 sm:gap-x-32">
         <Link
-          className="text-(--text-primary) font-playfair text-[1.8rem] font-bold tracking-wider relative transition-colors duration-300 ease-in after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-(--accent) after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full"
+          className="text-(--text-primary) font-playfair text-2xl sm:text-[1.8rem] font-bold tracking-wider relative transition-colors duration-300 ease-in after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-(--accent) after:transition-[width] after:duration-300 after:ease-in-out hover:after:w-full"
           href="/"
         >
           Athenaeum
         </Link>
 
-        <nav className="flex gap-6 lg:gap-10 flex-1 justify-start mt-4 lg:mt-0 lg:justify-center order-3 lg:order-0 w-full lg:w-auto">
+        <nav className="flex gap-6 lg:gap-10 flex-1 justify-between sm:justify-start mt-4 lg:mt-0 lg:justify-center order-3 lg:order-0 w-full lg:w-auto">
           <Link className="nav-link" href="/">
             Books
           </Link>
@@ -35,7 +35,7 @@ const Header = () => {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2 sm:gap-6">
           <button
             onClick={toggleTheme}
             title="Toggle dark mode"
