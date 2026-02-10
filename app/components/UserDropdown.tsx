@@ -9,6 +9,7 @@ const UserDropdown = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -27,9 +28,8 @@ const UserDropdown = () => {
   }, [isOpen]);
 
   const handleSignout = () => {
+    setIsSigningOut(true);
     signOutApp();
-    setIsOpen(false);
-    router.push("/");
   };
 
   const handleNavigation = () => {
@@ -66,10 +66,15 @@ const UserDropdown = () => {
             </button>
             <button
               onClick={handleSignout}
-              className="w-full font-sans flex items-center gap-3 px-4 py-3 text-sm text-(--text-primary) transition-all duration-200 hover:bg-(--bg-error) hover:text-(--text-error) cursor-pointer"
+              disabled={isSigningOut}
+              className={`w-full font-sans flex items-center gap-3 px-4 py-3 text-sm text-(--text-primary) transition-all duration-200 hover:bg-(--bg-error) hover:text-(--text-error) cursor-pointer ${isSigningOut ? "opacity-70 cursor-not-allowed" : ""}`}
             >
               <LogOut className="w-4 h-4" />
-              {isPending ? <span>Signing Out...</span> : <span>Sign Out</span>}
+              {isSigningOut ? (
+                <span>Signing Out...</span>
+              ) : (
+                <span>Sign Out</span>
+              )}
             </button>
           </div>
         </div>

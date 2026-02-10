@@ -111,5 +111,21 @@ export const signInWithSocial = async (provider: "google" | "github") => {
 };
 
 export const signOutApp = async () => {
-  await authClient.signOut();
+  try {
+    await authClient.signOut();
+  } catch (error) {
+    console.error("Sign out error:", error);
+  }
+
+  redirect("/");
+};
+
+export const deleteAccount = async () => {
+  try {
+    await authClient.deleteUser();
+  } catch (error) {
+    console.error("Delete account error:", error);
+  }
+
+  redirect("/");
 };

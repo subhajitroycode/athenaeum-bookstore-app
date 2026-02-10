@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useThemeStore } from "../store/theme-store";
 import { authClient } from "@/lib/auth-client";
 import UserDropdown from "./UserDropdown";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
   const { data: session, isPending } = authClient.useSession();
+  const pathname = usePathname();
 
   return (
     <header className="bg-card border-b border-(--border-color) sticky top-0 z-50 backdrop-blur-md transition-all duration-400 ease-in">
@@ -21,21 +23,35 @@ const Header = () => {
         </Link>
 
         <nav className="flex gap-6 lg:gap-10 flex-1 justify-between sm:justify-start mt-4 lg:mt-0 lg:justify-center order-3 lg:order-0 w-full lg:w-auto">
-          <Link className="nav-link" href="/">
+          <Link
+            className={`nav-link ${pathname === "/" ? "active" : ""}`}
+            href="/"
+          >
             Books
           </Link>
-          <Link className="nav-link" href="/genres">
+          <Link
+            className={`nav-link ${pathname === "/genres" ? "active" : ""}`}
+            href="/genres"
+          >
             Genres
           </Link>
-          <Link className="nav-link" href="/bestsellers">
+          <Link
+            className={`nav-link ${pathname === "/bestsellers" ? "active" : ""}`}
+            href="/bestsellers"
+          >
             Bestsellers
           </Link>
-          <Link className="nav-link" href="/about">
+          <Link
+            className={`nav-link ${pathname === "/about" ? "active" : ""}`}
+            href="/about"
+          >
             About
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-6">
+        <div
+          className={`flex items-center gap-2 sm:gap-6 ${session ? "ml-12 md:ml-28 lg:ml-0" : "ml-0"}`}
+        >
           <button
             onClick={toggleTheme}
             title="Toggle dark mode"
