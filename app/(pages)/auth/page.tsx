@@ -1,4 +1,4 @@
-import AuthTabs from "@/app/auth/_components/AuthTabs";
+import AuthTabs from "./_components/AuthTabs";
 import { Suspense } from "react";
 
 function page() {
