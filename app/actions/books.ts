@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 
 export const searchBooks = async (formData: FormData) => {
   const query = formData.get("query") as string;
-  if (!query) return [];
+  if (!query) return { books: [], query };
 
   try {
     const res = await db.book.findMany({
@@ -17,9 +17,25 @@ export const searchBooks = async (formData: FormData) => {
       },
     });
 
-    return res;
+    return {
+      books: res,
+      query,
+    };
   } catch (error) {
     console.error("Error searching books:", error);
+    return {
+      books: [],
+      query,
+    };
+  }
+};
+
+export const getBooks = async () => {
+  try {
+    const books = await db.book.findMany();
+    return books;
+  } catch (error) {
+    console.error("Error fetching books:", error);
     return [];
   }
 };
