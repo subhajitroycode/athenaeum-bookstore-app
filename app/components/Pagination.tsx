@@ -4,6 +4,7 @@ interface PaginationProps {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
   showPageInfo?: boolean;
+  scrollTargetRef?: React.RefObject<HTMLElement>;
 }
 
 const Pagination = ({
@@ -12,6 +13,7 @@ const Pagination = ({
   itemsPerPage,
   onPageChange,
   showPageInfo = true,
+  scrollTargetRef,
 }: PaginationProps) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -19,7 +21,19 @@ const Pagination = ({
 
   const goToPage = (page: number) => {
     onPageChange(page);
-    window.scrollTo({ top: 350, behavior: "smooth" });
+
+    if (scrollTargetRef?.current) {
+      const headerOffset = 100;
+      const elementPosition =
+        scrollTargetRef.current.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   const goToNextPage = () => {
@@ -77,11 +91,11 @@ const Pagination = ({
         </p>
       )}
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-sm:flex-wrap max-sm:justify-center">
         <button
           onClick={goToPrevPage}
           disabled={currentPage === 1}
-          className="font-sans px-4 py-2 border-[1.5px] border-(--border-color) text-(--text-primary) text-sm uppercase tracking-wider transition-all duration-300 hover:border-(--accent) hover:text-(--accent) disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-(--border-color) disabled:hover:text-(--text-primary)"
+          className="font-sans px-4 py-2 border-[1.5px] border-(--border-color) text-(--text-primary) text-sm uppercase tracking-wider transition-all duration-300 hover:border-(--accent) hover:text-(--accent) disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-(--border-color) disabled:hover:text-(--text-primary) max-sm:order-1"
         >
           previous
         </button>
@@ -107,7 +121,7 @@ const Pagination = ({
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className="font-sans px-4 py-2 border-[1.5px] border-(--border-color) text-(--text-primary) text-sm uppercase tracking-wider transition-all duration-300 hover:border-(--accent) hover:text-(--accent) disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-(--border-color) disabled:hover:text-(--text-primary)"
+          className="font-sans px-4 py-2 border-[1.5px] border-(--border-color) text-(--text-primary) text-sm uppercase tracking-wider transition-all duration-300 hover:border-(--accent) hover:text-(--accent) disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-(--border-color) disabled:hover:text-(--text-primary) max-sm:order-1"
         >
           next
         </button>

@@ -1,12 +1,22 @@
 import type { Book } from "@/lib/generated/prisma/client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getBooks } from "../actions/books";
 import { LoaderCircle } from "lucide-react";
 import { usePagination } from "../hooks/usePagination";
+import { useResponsiveItemsPerPage } from "../hooks/useResponsiveItemsPerPage";
 import Pagination from "./Pagination";
+import BookCard from "./BookCard";
 
 const FeaturedList = () => {
   const [books, setBooks] = useState<Book[]>();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const itemsPerPage = useResponsiveItemsPerPage({
+    mobile: 6,
+    tablet: 8,
+    desktop: 12,
+    xl: 16,
+  });
 
   const fetchBooks = async () => {
     const result = await getBooks();
@@ -20,13 +30,13 @@ const FeaturedList = () => {
   const { currentPage, setCurrentPage, getPaginatedItems } =
     usePagination<Book>({
       totalItems: books?.length || 0,
-      itemsPerPage: 12,
+      itemsPerPage,
     });
 
   const currentBooks = books ? getPaginatedItems(books) : [];
 
   return (
-    <section className="max-w-350 mx-auto pt-8 px-12 pb-16">
+    <section ref={sectionRef} className="max-w-350 mx-auto pt-8 px-12 pb-16">
       <div className="flex justify-between items-center mb-10 pb-4 border-b border-(--border-color)">
         <h2 className="font-playfair text-[1.8rem] font-semibold text-(--text-primary)">
           Featured Collection
@@ -47,16 +57,17 @@ const FeaturedList = () => {
         <>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-10 mb-12">
             {currentBooks.map((book) => (
-              <div key={book.id}>{book.title}</div>
+              <BookCard key={book.id} book={book} />
             ))}
           </div>
 
           <Pagination
             currentPage={currentPage}
             totalItems={books.length}
-            itemsPerPage={12}
+            itemsPerPage={itemsPerPage}
             onPageChange={setCurrentPage}
             showPageInfo={true}
+            scrollTargetRef={sectionRef as React.RefObject<HTMLElement>}
           />
         </>
       )}
