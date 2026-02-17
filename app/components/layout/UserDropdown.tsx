@@ -2,7 +2,7 @@ import { authClient } from "@/lib/auth-client";
 import { LogOut, UserCircle2, UserRoundPen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { signOutApp } from "../actions/auth";
+import { signOutApp } from "../../actions/auth";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);

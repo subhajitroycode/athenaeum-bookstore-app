@@ -2,7 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { useThemeStore } from "../store/theme-store";
+import { useThemeStore } from "../../store/theme-store";
 import { authClient } from "@/lib/auth-client";
 import UserDropdown from "./UserDropdown";
 import { usePathname } from "next/navigation";

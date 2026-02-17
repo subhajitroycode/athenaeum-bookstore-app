@@ -39,3 +39,18 @@ export const getBooks = async () => {
     return [];
   }
 };
+
+export const getBookById = async (id: string) => {
+  try {
+    const book = await db.book.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return book;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    return;
+  }
+};

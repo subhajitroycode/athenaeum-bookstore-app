@@ -5,7 +5,7 @@ import Link from "next/link";
 const BookCard = ({ book }: { book: Book }) => {
   return (
     <Link
-      href="/about"
+      href={`/book/${book.id}`}
       className="bg-card border border-(--border-color) overflow-hidden hover:-translate-y-2 hover:shadow-[0_12px_30px_var(--shadow)] hover:border-(--accent) book-card"
     >
       {book.coverImage ? (

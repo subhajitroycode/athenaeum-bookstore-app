@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { searchBooks } from "../actions/books";
+import { searchBooks } from "../../actions/books";
 import SearchResult from "./SearchResult";
 import FeaturedList from "./FeaturedList";
 import type { Book } from "@/lib/generated/prisma/client";
@@ -15,6 +15,13 @@ const Search = () => {
   const handleSearch = async (formData: FormData) => {
     const { books, query } = await searchBooks(formData);
     setResults({ books, query });
+  };
+
+  const clearSearch = () => {
+    setResults({
+      books: [],
+      query: "",
+    });
   };
 
   return (
@@ -45,7 +52,15 @@ const Search = () => {
         </form>
       </section>
 
-      {results.query ? <SearchResult /> : <FeaturedList />}
+      {results.query ? (
+        <SearchResult
+          books={results.books}
+          query={results.query}
+          clearSearch={clearSearch}
+        />
+      ) : (
+        <FeaturedList />
+      )}
     </>
   );
 };

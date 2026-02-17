@@ -1,11 +1,11 @@
 import type { Book } from "@/lib/generated/prisma/client";
 import { useEffect, useRef, useState } from "react";
-import { getBooks } from "../actions/books";
+import { getBooks } from "../../actions/books";
 import { LoaderCircle } from "lucide-react";
-import { usePagination } from "../hooks/usePagination";
-import { useResponsiveItemsPerPage } from "../hooks/useResponsiveItemsPerPage";
-import Pagination from "./Pagination";
-import BookCard from "./BookCard";
+import { usePagination } from "../../hooks/usePagination";
+import { useResponsiveItemsPerPage } from "../../hooks/useResponsiveItemsPerPage";
+import Pagination from "../common/Pagination";
+import BookCard from "../common/BookCard";
 
 const FeaturedList = () => {
   const [books, setBooks] = useState<Book[]>();

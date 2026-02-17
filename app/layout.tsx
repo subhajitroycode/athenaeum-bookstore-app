@@ -5,8 +5,8 @@ import {
   Playfair_Display,
 } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
-import ThemeProvider from "./components/ThemeProvider";
+import Header from "./components/layout/Header";
+import ThemeProvider from "./components/common/ThemeProvider";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",

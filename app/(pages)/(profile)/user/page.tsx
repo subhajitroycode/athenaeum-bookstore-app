@@ -1,7 +1,7 @@
 "use client";
 
 import { deleteAccount, signOutApp } from "@/app/actions/auth";
-import SignInSkeleton from "@/app/components/SignInSkeleton";
+import SignInSkeleton from "@/app/components/layout/SignInSkeleton";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 
