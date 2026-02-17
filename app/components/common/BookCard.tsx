@@ -3,6 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const BookCard = ({ book }: { book: Book }) => {
+  const formattedPrice = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(book?.price as number);
+
   return (
     <Link
       href={`/book/${book.id}`}
@@ -32,7 +37,7 @@ const BookCard = ({ book }: { book: Book }) => {
         </p>
         <div className="flex justify-between items-center pt-4 border-t border-(--border-color)">
           <span className="font-sans text-[1.1rem] font-semibold text-(--accent)">
-            ${book.price}
+            {formattedPrice}
           </span>
           <span className="font-sans text-[0.85rem] text-(--text-secondary)">
             {book.genre}

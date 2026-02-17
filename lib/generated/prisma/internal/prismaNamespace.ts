@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Book: 'Book',
   User: 'User',
+  Favourite: 'Favourite',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "book" | "user" | "session" | "account" | "verification"
+    modelProps: "book" | "user" | "favourite" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    Favourite: {
+      payload: Prisma.$FavouritePayload<ExtArgs>
+      fields: Prisma.FavouriteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FavouriteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FavouriteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>
+        }
+        findFirst: {
+          args: Prisma.FavouriteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FavouriteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>
+        }
+        findMany: {
+          args: Prisma.FavouriteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>[]
+        }
+        create: {
+          args: Prisma.FavouriteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>
+        }
+        createMany: {
+          args: Prisma.FavouriteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FavouriteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>[]
+        }
+        delete: {
+          args: Prisma.FavouriteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>
+        }
+        update: {
+          args: Prisma.FavouriteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>
+        }
+        deleteMany: {
+          args: Prisma.FavouriteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FavouriteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FavouriteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>[]
+        }
+        upsert: {
+          args: Prisma.FavouriteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavouritePayload>
+        }
+        aggregate: {
+          args: Prisma.FavouriteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFavourite>
+        }
+        groupBy: {
+          args: Prisma.FavouriteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FavouriteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FavouriteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FavouriteCountAggregateOutputType> | number
         }
       }
     }
@@ -848,6 +923,16 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const FavouriteScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  bookId: 'bookId'
+} as const
+
+export type FavouriteScalarFieldEnum = (typeof FavouriteScalarFieldEnum)[keyof typeof FavouriteScalarFieldEnum]
+
+
 export const SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -1082,6 +1167,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   book?: Prisma.BookOmit
   user?: Prisma.UserOmit
+  favourite?: Prisma.FavouriteOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit

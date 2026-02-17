@@ -8,33 +8,49 @@ datasource db {
 }
 
 model Book {
-  id            String   @id @default(cuid())
+  id            String      @id @default(cuid())
   title         String
   author        String
   genre         String
-  isbn          String   @unique
+  isbn          String      @unique
   publishedYear Int
   price         Float
   description   String?
   coverImage    String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  favouritedBy  Favourite[]
 }
 
 model User {
-  id            String    @id
+  id            String      @id
   name          String
   email         String
-  role          String    @default("user")
-  emailVerified Boolean   @default(false)
+  role          String      @default("user")
+  emailVerified Boolean     @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   sessions      Session[]
   accounts      Account[]
+  favourites    Favourite[]
 
   @@unique([email])
   @@map("user")
+}
+
+model Favourite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId]) // a book can only be favourited once per user
+  @@index([userId])
+  @@index([bookId])
+  @@map("favourite")
 }
 
 model Session {

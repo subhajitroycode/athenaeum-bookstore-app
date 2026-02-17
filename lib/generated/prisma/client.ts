@@ -50,6 +50,11 @@ export type Book = Prisma.BookModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model Favourite
+ * 
+ */
+export type Favourite = Prisma.FavouriteModel
+/**
  * Model Session
  * 
  */
