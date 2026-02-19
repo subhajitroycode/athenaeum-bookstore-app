@@ -1,7 +1,8 @@
 import { getBookById } from "@/app/actions/books";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
-import { Heart, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import Buttons from "./_components/Buttons";
 
 async function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -32,17 +33,11 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
             )}
           </div>
 
-          <button className="flex items-center justify-center gap-2 w-full py-4 bg-(--accent) text-white font-sans text-[0.95rem] uppercase tracking-widest font-medium cursor-pointer border-none transition-all duration-300 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] relative overflow-hidden before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-[left] before:duration-500 hover:before:left-full">
-            <ShoppingCart /> add to cart - {formattedPrice}
-          </button>
+          <Buttons bookId={book?.id as string} />
         </aside>
 
         <div className="flex flex-col gap-10">
           <div className="border-b border-(--border-color) pb-8">
-            <button className="flex items-center justify-center gap-2 font-sans text-[0.9rem] px-4 py-3 bg-(--bg-secondary) border border-(--border-color) text-(--accent) uppercase tracking-wider font-medium mb-5 transition-all duration-300">
-              <Heart /> Add to favourites
-            </button>
-
             <h1 className="font-playfair text-5xl font-bold leading-[1.15] mb-3 text-(--text-primary)">
               {book?.title}
             </h1>

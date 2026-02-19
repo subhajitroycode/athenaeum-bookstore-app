@@ -47,7 +47,7 @@ model Favourite {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, bookId]) // a book can only be favourited once per user
+  @@unique([userId, bookId])
   @@index([userId])
   @@index([bookId])
   @@map("favourite")
