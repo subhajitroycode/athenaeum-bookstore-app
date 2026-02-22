@@ -4,7 +4,7 @@ const Breadcrumb = ({ genre, title }: { genre?: string; title?: string }) => {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="max-w-350 mx-auto px-12 py-[1.2rem] flex items-center gap-[0.6rem] font-sans text-[0.85rem] text-(--text-secondary)"
+      className="max-w-350 mx-auto px-4 py-6 sm:px-12 sm:py-5 flex items-center flex-wrap md:flex-nowrap gap-[0.6rem] font-sans text-[0.85rem] text-(--text-secondary)"
     >
       <Link
         href={"/"}

@@ -1,7 +1,13 @@
 "use client";
 
-import { addFavourite, isFavourite } from "@/app/actions/favourites";
+import {
+  addFavourite,
+  isFavourite,
+  removeFavourite,
+} from "@/app/actions/favourites";
+import { useBookStore } from "@/app/store/book-store";
 import { Heart, HeartMinus, HeartPlus, ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 interface Status {
@@ -18,32 +24,32 @@ const Buttons = ({ bookId }: { bookId: string }) => {
     isSignedIn: true,
     error: undefined,
   });
+  const router = useRouter();
+  const { incrementLovedByCount, decrementLovedByCount } = useBookStore();
 
   const checkFavourite = async () => {
     setStatus((prev) => ({ ...prev, loading: true }));
 
     const res = await isFavourite(bookId);
 
-    if (!res.success)
+    if (res.success)
       setStatus((prev) => ({
         ...prev,
+        isFavourite: res.isFavourite,
         loading: false,
-        error: res.error,
       }));
-
-    if (!res.success && res.error === "Unauthorized")
+    else if (!res.success && res.error === "Unauthorized")
       setStatus((prev) => ({
         ...prev,
         isSignedIn: false,
         loading: false,
         error: res.error,
       }));
-
-    if (res.success)
+    else
       setStatus((prev) => ({
         ...prev,
-        isFavourite: res.isFavourite,
         loading: false,
+        error: res.error,
       }));
   };
 
@@ -56,19 +62,39 @@ const Buttons = ({ bookId }: { bookId: string }) => {
 
     const res = await addFavourite(bookId);
 
-    if (!res.success) {
+    if (res.success) {
+      setStatus((prev) => ({
+        ...prev,
+        isFavourite: !!res.favourite,
+        loading: false,
+      }));
+      incrementLovedByCount();
+    } else {
       setStatus((prev) => ({
         ...prev,
         loading: false,
         error: res.error,
       }));
     }
+  };
+
+  const handleRemoveFavourite = async () => {
+    setStatus((prev) => ({ ...prev, loading: true }));
+
+    const res = await removeFavourite(bookId);
 
     if (res.success) {
       setStatus((prev) => ({
         ...prev,
-        isFavourite: !!res.favourite,
+        isFavourite: false,
         loading: false,
+      }));
+      decrementLovedByCount();
+    } else {
+      setStatus((prev) => ({
+        ...prev,
+        loading: false,
+        error: res.error,
       }));
     }
   };
@@ -80,18 +106,23 @@ const Buttons = ({ bookId }: { bookId: string }) => {
       </button>
       {!status.isSignedIn ? (
         <button
+          disabled={status.loading}
           className={`bg-(--color-card) border-[1.5px] hover:text-white border-(--border-color) p-4 transition-all duration-300 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] ${status.loading ? "cursor-wait" : "cursor-pointer"}`}
+          onClick={() => router.push("/auth?tab=signin")}
         >
           <Heart />
         </button>
       ) : status.isFavourite ? (
         <button
+          disabled={status.loading}
           className={`bg-(--color-card) border-[1.5px] hover:text-white border-(--border-color) p-4 transition-all duration-300 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] ${status.loading ? "cursor-wait" : "cursor-pointer"}`}
+          onClick={handleRemoveFavourite}
         >
           <HeartMinus />
         </button>
       ) : (
         <button
+          disabled={status.loading}
           className={`bg-(--color-card) border-[1.5px] hover:text-white border-(--border-color) p-4 transition-all duration-300 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] ${status.loading ? "cursor-wait" : "cursor-pointer"}`}
           onClick={handleAddFavourite}
         >

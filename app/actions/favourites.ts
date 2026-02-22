@@ -121,3 +121,16 @@ export const isFavourite = async (bookId: string) => {
     };
   }
 };
+
+export const getLovedBy = async (bookId: string) => {
+  try {
+    const lovedBy = await db.favourite.findMany({
+      where: { bookId },
+      include: { user: true },
+      orderBy: { createdAt: "desc" },
+    });
+    return { success: true, lovedBy };
+  } catch (error) {
+    return { success: false, error: "Failed to fetch loved by", lovedBy: [] };
+  }
+};
