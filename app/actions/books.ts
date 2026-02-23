@@ -54,3 +54,35 @@ export const getBookById = async (id: string) => {
     return;
   }
 };
+
+export const getGenres = async () => {
+  try {
+    const genres = await db.book.groupBy({
+      by: ["genre"],
+      _count: { genre: true },
+      orderBy: { _count: { genre: "desc" } },
+    });
+    return genres;
+  } catch (error) {
+    console.error("Error fetching genres:", error);
+    return [];
+  }
+};
+
+export const getBooksByGenre = async (genre: string) => {
+  try {
+    const books = await db.book.findMany({
+      where: {
+        genre: {
+          equals: genre,
+          mode: "insensitive",
+        },
+      },
+    });
+
+    return books;
+  } catch (error) {
+    console.error("Error fetching books by genre:", error);
+    return [];
+  }
+};
