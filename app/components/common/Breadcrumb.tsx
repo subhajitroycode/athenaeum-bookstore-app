@@ -22,12 +22,16 @@ const Breadcrumb = ({ genre, title }: { genre?: string; title?: string }) => {
       <span className="opacity-40">/</span>
       <Link
         href={`/genres/${genre?.toLowerCase()}`}
-        className="hover:text-(--accent) transition-colors duration-300"
+        className="hover:text-(--accent) transition-colors duration-300 capitalize"
       >
         {genre}
       </Link>
-      <span className="opacity-40">/</span>
-      <span className="text-(--text-primary)">{title}</span>
+      {title && (
+        <>
+          <span className="opacity-40">/</span>
+          <span className="text-(--text-primary)">{title}</span>
+        </>
+      )}
     </nav>
   );
 };

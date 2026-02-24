@@ -48,7 +48,7 @@ const GenreGrid = ({ genres }: { genres: Genre[] }) => {
     <div className="pt-4 pb-12 sm:pt-6 sm:pb-16 md:pt-8 md:pb-20">
       <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-6 md:gap-8">
         {paginatedGenres.map(({ genre, _count }) => {
-          const slug = genre.toLowerCase().replace(/\s+/g, "-");
+          const slug = genre.toLowerCase();
           const icon = genreIcons[genre.toLowerCase()] || "📚";
 
           return (

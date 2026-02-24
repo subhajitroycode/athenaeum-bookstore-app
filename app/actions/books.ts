@@ -86,3 +86,28 @@ export const getBooksByGenre = async (genre: string) => {
     return [];
   }
 };
+
+export const getBooksByGenreWithSearch = async (
+  genre: string,
+  query: string,
+) => {
+  try {
+    const books = await db.book.findMany({
+      where: {
+        genre: {
+          equals: genre,
+          mode: "insensitive",
+        },
+        OR: [
+          { title: { contains: query, mode: "insensitive" } },
+          { author: { contains: query, mode: "insensitive" } },
+        ],
+      },
+    });
+
+    return books;
+  } catch (error) {
+    console.error("Error fetching books by genre with search:", error);
+    return [];
+  }
+};
