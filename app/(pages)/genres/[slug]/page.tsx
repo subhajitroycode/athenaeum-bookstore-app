@@ -7,6 +7,25 @@ import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { LoaderCircle } from "lucide-react";
 import SearchComponent from "../_components/SearchComponent";
 import FilterBooks from "@/app/components/common/FilterBooks";
+import { filterBooks } from "@/app/utils/filter";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const genreString = slug
+    .split("%20")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  return {
+    title: `${genreString}`,
+    description: `Explore books in the ${genreString} genre.`,
+  };
+}
 
 export default async function page({
   params,
@@ -25,26 +44,7 @@ export default async function page({
     ? await getBooksByGenreWithSearch(genreString, query)
     : await getBooksByGenre(genreString);
 
-  let sortedBooks = [...displayedBooks];
-  switch (sort) {
-    case "oldest":
-      sortedBooks.sort((a, b) => a.publishedYear - b.publishedYear);
-      break;
-    case "price-low":
-      sortedBooks.sort((a, b) => a.price - b.price);
-      break;
-    case "price-high":
-      sortedBooks.sort((a, b) => b.price - a.price);
-      break;
-    case "title-asc":
-      sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
-      break;
-    case "author-asc":
-      sortedBooks.sort((a, b) => a.author.localeCompare(b.author));
-      break;
-    default:
-      sortedBooks;
-  }
+  const filteredBooks = filterBooks(displayedBooks, sort);
 
   return (
     <section>
@@ -82,7 +82,7 @@ export default async function page({
               </p>
             )}
 
-            {sortedBooks.map((book) => {
+            {filteredBooks.map((book) => {
               return <BookCard key={book.id} book={book} />;
             })}
           </div>

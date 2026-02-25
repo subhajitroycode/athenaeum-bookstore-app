@@ -1,7 +1,14 @@
 import { getGenres } from "@/app/actions/books";
 import GenreGrid from "./_components/GenreGrid";
+import type { Metadata } from "next";
 
-async function page() {
+export const metadata: Metadata = {
+  title: "Genres",
+  description:
+    "Discover books by genre, from timeless classics to contemporary masterpieces. Explore our curated collection and find your next great read.",
+};
+
+export default async function page() {
   const genresData = await getGenres();
 
   return (
@@ -22,5 +29,3 @@ async function page() {
     </section>
   );
 }
-
-export default page;

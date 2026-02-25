@@ -6,10 +6,15 @@ import { usePagination } from "../../hooks/usePagination";
 import { useResponsiveItemsPerPage } from "../../hooks/useResponsiveItemsPerPage";
 import Pagination from "../common/Pagination";
 import BookCard from "../common/BookCard";
+import FilterBooks from "../common/FilterBooks";
+import { useSearchParams } from "next/navigation";
+import { filterBooks } from "@/app/utils/filter";
 
 const FeaturedList = () => {
   const [books, setBooks] = useState<Book[]>();
   const sectionRef = useRef<HTMLElement>(null);
+  const searchParams = useSearchParams();
+  const sort = searchParams.get("sort") || "";
 
   const itemsPerPage = useResponsiveItemsPerPage({
     mobile: 6,
@@ -20,12 +25,13 @@ const FeaturedList = () => {
 
   const fetchBooks = async () => {
     const result = await getBooks();
-    setBooks(result);
+    const sortedBooks = filterBooks(result, sort);
+    setBooks(sortedBooks);
   };
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [sort]);
 
   const { currentPage, setCurrentPage, getPaginatedItems } =
     usePagination<Book>({
@@ -41,12 +47,7 @@ const FeaturedList = () => {
         <h2 className="font-playfair text-[1.8rem] font-semibold text-(--text-primary)">
           Featured Collection
         </h2>
-        <button
-          className="font-sans border border-(--border-color) text-(--text-secondary) py-2 px-5 cursor-pointer text-sm uppercase tracking-wider transition-all duration-300 hover:text-(--accent) hover:border-(--accent)"
-          type="button"
-        >
-          Filter & Sort
-        </button>
+        <FilterBooks />
       </div>
 
       {!books ? (
