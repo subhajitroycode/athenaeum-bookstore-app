@@ -35,12 +35,14 @@ const Header = () => {
           >
             Genres
           </Link>
-          <Link
-            className={`nav-link ${pathname === "/bestsellers" ? "active" : ""}`}
-            href="/bestsellers"
-          >
-            Bestsellers
-          </Link>
+          {session && (
+            <Link
+              className={`nav-link ${pathname === "/favourites" ? "active" : ""}`}
+              href="/favourites"
+            >
+              Favourites
+            </Link>
+          )}
           <Link
             className={`nav-link ${pathname === "/about" ? "active" : ""}`}
             href="/about"
