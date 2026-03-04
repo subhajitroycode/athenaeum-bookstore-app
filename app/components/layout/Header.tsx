@@ -1,16 +1,24 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { Moon, ShoppingBag, Sun } from "lucide-react";
 import Link from "next/link";
 import { useThemeStore } from "../../store/theme-store";
 import { authClient } from "@/lib/auth-client";
 import UserDropdown from "./UserDropdown";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCartStore } from "@/app/store/cart-store";
+import { useEffect } from "react";
 
 const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
+  // const { count, fetchInitialCount } = useCartStore();
   const { data: session, isPending } = authClient.useSession();
   const pathname = usePathname();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   fetchInitialCount();
+  // }, [session, fetchInitialCount]);
 
   return (
     <header className="bg-card border-b border-(--border-color) sticky top-0 z-50 backdrop-blur-md transition-all duration-400 ease-in">
@@ -54,6 +62,22 @@ const Header = () => {
         <div
           className={`flex items-center gap-2 sm:gap-6 ${session ? "ml-12 md:ml-28 lg:ml-0" : "ml-0"}`}
         >
+          {session && (
+            <div className="relative">
+              <button
+                type="button"
+                className="text-(--text-secondary) cursor-pointer text-lg p-2 transition-all duration-300 relative hover:text-(--accent) hover:-translate-y-0.5"
+                onClick={() => router.push("/cart")}
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {/* {count > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 bg-(--accent) text-white font-sans text-xs font-semibold w-4 h-4 rounded-full flex items-center justify-center pointer-events-none">
+                    {count > 99 ? "99+" : count}
+                  </span>
+                )} */}
+              </button>
+            </div>
+          )}
           <button
             onClick={toggleTheme}
             title="Toggle dark mode"
@@ -71,12 +95,13 @@ const Header = () => {
           ) : session ? (
             <UserDropdown />
           ) : (
-            <Link
-              href="/auth?tab=signin"
+            <button
               className="font-sans bg-transparent border-[1.5px] border-(--border-color) text-(--text-primary) px-[1.8rem] py-[0.6rem] cursor-pointer text-sm tracking-wider uppercase transition-all duration-300 ease-in hover:bg-(--accent) hover:border-(--accent) hover:text-white hover:-translate-y-0.5 hover:shadow-[0_4px_12px_var(--shadow)]"
+              type="button"
+              onClick={() => router.push("/auth?tab=signin")}
             >
               Sign In
-            </Link>
+            </button>
           )}
         </div>
       </div>

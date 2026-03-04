@@ -33,6 +33,16 @@ export type User = Prisma.UserModel
  */
 export type Favourite = Prisma.FavouriteModel
 /**
+ * Model Cart
+ * 
+ */
+export type Cart = Prisma.CartModel
+/**
+ * Model CartItem
+ * 
+ */
+export type CartItem = Prisma.CartItemModel
+/**
  * Model Session
  * 
  */

@@ -11,6 +11,8 @@
 export type * from './models/Book'
 export type * from './models/User'
 export type * from './models/Favourite'
+export type * from './models/Cart'
+export type * from './models/CartItem'
 export type * from './models/Session'
 export type * from './models/Account'
 export type * from './models/Verification'
