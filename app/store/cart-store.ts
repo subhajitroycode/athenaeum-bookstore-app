@@ -19,8 +19,8 @@ export const useCartStore = create<CartState>((set) => ({
     try {
       const res = await getCartItems();
 
-      if (res.success && res.cartItems?.items.length! > 0) {
-        set({ count: res.cartItems?.items.length! });
+      if (res.success && res.cartItems?.length > 0) {
+        set({ count: res.cartItems?.length });
       }
     } catch (error) {
       console.error("Error fetching initial cart count:", error);

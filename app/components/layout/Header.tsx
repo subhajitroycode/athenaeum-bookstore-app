@@ -11,14 +11,14 @@ import { useEffect } from "react";
 
 const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
-  // const { count, fetchInitialCount } = useCartStore();
+  const { count, fetchInitialCount } = useCartStore();
   const { data: session, isPending } = authClient.useSession();
   const pathname = usePathname();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   fetchInitialCount();
-  // }, [session, fetchInitialCount]);
+  useEffect(() => {
+    fetchInitialCount();
+  }, [session, fetchInitialCount]);
 
   return (
     <header className="bg-card border-b border-(--border-color) sticky top-0 z-50 backdrop-blur-md transition-all duration-400 ease-in">
@@ -70,11 +70,11 @@ const Header = () => {
                 onClick={() => router.push("/cart")}
               >
                 <ShoppingBag className="w-5 h-5" />
-                {/* {count > 0 && (
+                {count > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 bg-(--accent) text-white font-sans text-xs font-semibold w-4 h-4 rounded-full flex items-center justify-center pointer-events-none">
                     {count > 99 ? "99+" : count}
                   </span>
-                )} */}
+                )}
               </button>
             </div>
           )}
