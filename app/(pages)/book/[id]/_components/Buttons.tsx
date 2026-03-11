@@ -32,8 +32,8 @@ const Buttons = ({ bookId }: { bookId: string }) => {
   });
   const router = useRouter();
   const { incrementLovedByCount, decrementLovedByCount } = useBookStore();
-  const incrementCount = useCartStore((state) => state.increment);
-  const decrementCount = useCartStore((state) => state.decrement);
+  const incrementCount = useCartStore((state) => state.increaseItem);
+  const decrementCount = useCartStore((state) => state.decreaseItem);
 
   const handleAddToCart = async () => {
     setStatus((prev) => ({ ...prev, cartLoading: true }));
