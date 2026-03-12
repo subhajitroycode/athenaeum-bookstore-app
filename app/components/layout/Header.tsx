@@ -11,14 +11,14 @@ import { useEffect } from "react";
 
 const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
-  const { count, fetchInitialCount } = useCartStore();
+  const { count, fetchCartItems } = useCartStore();
   const { data: session, isPending } = authClient.useSession();
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    fetchInitialCount();
-  }, [session, fetchInitialCount]);
+    fetchCartItems();
+  }, [session, fetchCartItems]);
 
   return (
     <header className="bg-card border-b border-(--border-color) sticky top-0 z-50 backdrop-blur-md transition-all duration-400 ease-in">

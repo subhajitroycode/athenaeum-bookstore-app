@@ -5,11 +5,7 @@ import { Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const SummaryCard = () => {
-  const { cartItems, fetchCartItems } = useCartStore();
-
-  useEffect(() => {
-    fetchCartItems();
-  }, [fetchCartItems]);
+  const { cartItems } = useCartStore();
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.book.price * item.quantity,
@@ -22,7 +18,7 @@ const SummaryCard = () => {
   const total = subtotal + shipping + tax;
 
   return (
-    <div className="bg-card border border-(--border-color) p-8">
+    <div className="bg-card border border-(--border-color) p-6 sm:p-8">
       <h3 className="font-playfair text-2xl font-bold text-(--text-primary) mb-6 pb-4 border-b border-b-(--border-color) capitalize">
         order summary
       </h3>

@@ -1,23 +1,16 @@
-import CartItems from "./_components/CartItems";
-import SummaryCard from "./_components/SummaryCard";
+import type { Metadata } from "next";
+import CartClient from "./_components/CartClient";
 
-function page() {
+export const metadata: Metadata = {
+  title: "Cart",
+  description:
+    "This is the cart page for all the books that has been added to the cart.",
+};
+
+export default function page() {
   return (
-    <section className="max-w-350 mx-auto pt-8 px-12 pb-20 grid grid-cols-[1fr_420px] gap-12 animate-fade-in-scale">
-      <div className="flex flex-col gap-8">
-        <div className="bg-card border border-(--border-color) p-8">
-          <h2 className="font-playfair text-3xl font-bold text-(--text-primary) mb-6 capitalize">
-            shopping cart
-          </h2>
-          <CartItems />
-        </div>
-      </div>
-
-      <aside className="sticky top-25 h-fit">
-        <SummaryCard />
-      </aside>
+    <section className="max-w-350 mx-auto pt-4 px-6 pb-8 sm:pt-6 sm:px-8 sm:pb-12 md:pt-8 md:px-12 md:pb-20 animate-fade-in-scale">
+      <CartClient />
     </section>
   );
 }
-
-export default page;

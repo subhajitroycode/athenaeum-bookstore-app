@@ -3,28 +3,17 @@
 import { useCartStore } from "@/app/store/cart-store";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
-import { useEffect } from "react";
 
 const CartItems = () => {
-  const {
-    cartItems,
-    fetchCartItems,
-    removeItem,
-    errorMessage,
-    increaseQuantity,
-    decreaseQuantity,
-  } = useCartStore();
-
-  useEffect(() => {
-    fetchCartItems();
-  }, [fetchCartItems]);
+  const { cartItems, removeItem, increaseQuantity, decreaseQuantity } =
+    useCartStore();
 
   return (
     <div className="flex flex-col gap-6">
       {cartItems.map((item) => (
         <div
           key={item.id}
-          className="flex gap-6 pb-6 border-b border-(--border-color) last:border-none last:pb-0"
+          className="flex flex-col md:flex-row gap-6 pb-6 border-b border-(--border-color)"
         >
           <div className="w-20 h-30 border border-(--border-color) aspect-2/3 relative overflow-hidden">
             <Image
@@ -50,7 +39,7 @@ const CartItems = () => {
             </div>
           </div>
 
-          <div className="flex flex-col items-end justify-between">
+          <div className="flex flex-row md:flex-col w-full md:w-auto items-end justify-between">
             <span className="font-sans text-xl font-semibold text-(--accent)">
               ${item.book.price}
             </span>

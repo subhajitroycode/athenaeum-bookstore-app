@@ -49,6 +49,7 @@ const Buttons = ({ bookId }: { bookId: string }) => {
         cartLoading: false,
         error: res.error,
       }));
+      router.push("/auth?tab=signin");
     } else {
       setStatus((prev) => ({ ...prev, cartLoading: false, error: res.error }));
     }
@@ -68,6 +69,7 @@ const Buttons = ({ bookId }: { bookId: string }) => {
         cartLoading: false,
         error: res.error,
       }));
+      router.push("/auth?tab=signin");
     } else {
       setStatus((prev) => ({ ...prev, cartLoading: false, error: res.error }));
     }
@@ -181,7 +183,7 @@ const Buttons = ({ bookId }: { bookId: string }) => {
     <div className="flex items-center justify-between gap-4">
       <button
         disabled={status.cartLoading}
-        className="flex items-center justify-center gap-2 flex-1 py-4 bg-(--accent) text-white font-sans text-[0.95rem] uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] relative overflow-hidden before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-[left] before:duration-500 hover:before:left-full"
+        className="flex items-center justify-center gap-2 flex-1 py-4 bg-(--accent) text-white font-sans text-xs lg:text-[0.95rem] uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] relative overflow-hidden before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-to-r before:from-transparent before:via-white/20 before:to-transparent before:transition-[left] before:duration-500 hover:before:left-full"
         onClick={status.inCart ? handleRemoveFromCart : handleAddToCart}
       >
         <ShoppingCart /> {status.inCart ? "Remove from Cart" : "Add to Cart"}
