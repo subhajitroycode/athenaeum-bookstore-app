@@ -226,3 +226,38 @@ body {
   background-repeat: no-repeat;
   background-position: right 0.8rem center;
 }
+
+.value-card {
+  padding: 2.5rem 2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  transition: all 0.4s ease;
+  animation: slideUp 0.6s ease backwards;
+}
+
+.value-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.value-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.value-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.value-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px var(--shadow);
+  border-color: var(--accent);
+}
