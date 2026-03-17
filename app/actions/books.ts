@@ -2,8 +2,7 @@
 
 import { db } from "@/lib/db";
 
-export const searchBooks = async (formData: FormData) => {
-  const query = formData.get("query") as string;
+export const searchBooks = async (query: string) => {
   if (!query) return { books: [], query };
 
   try {
@@ -19,13 +18,11 @@ export const searchBooks = async (formData: FormData) => {
 
     return {
       books: res,
-      query,
     };
   } catch (error) {
     console.error("Error searching books:", error);
     return {
       books: [],
-      query,
     };
   }
 };

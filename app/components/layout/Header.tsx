@@ -32,8 +32,8 @@ const Header = () => {
 
         <nav className="flex gap-6 lg:gap-10 flex-1 justify-between sm:justify-start mt-4 lg:mt-0 lg:justify-center order-3 lg:order-0 w-full lg:w-auto">
           <Link
-            className={`nav-link ${pathname === "/" ? "active" : ""}`}
-            href="/"
+            className={`nav-link ${pathname === "/books" ? "active" : ""}`}
+            href="/books"
           >
             Books
           </Link>

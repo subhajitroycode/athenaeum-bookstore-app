@@ -13,7 +13,8 @@ const Search = () => {
   });
 
   const handleSearch = async (formData: FormData) => {
-    const { books, query } = await searchBooks(formData);
+    const query = formData.get("query") as string;
+    const { books } = await searchBooks(query);
     setResults({ books, query });
   };
 
