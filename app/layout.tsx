@@ -7,6 +7,7 @@ import {
 import "./globals.css";
 import Header from "./components/layout/Header";
 import ThemeProvider from "./components/common/ThemeProvider";
+import Footer from "./components/layout/Footer";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -48,6 +49,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Header />
           <main>{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

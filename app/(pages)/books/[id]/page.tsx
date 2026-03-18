@@ -1,9 +1,9 @@
 import { getBookById } from "@/app/actions/books";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import Image from "next/image";
-import Buttons from "./_components/Buttons";
+import Buttons from "../_components/Buttons";
 import { getLovedBy } from "@/app/actions/favourites";
-import LovedByCount from "./_components/LovedByCount";
+import LovedByCount from "../_components/LovedByCount";
 
 async function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
