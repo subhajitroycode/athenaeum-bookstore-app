@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "covers.openlibrary.org",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "fonts.gstatic.com",
+        port: "",
+      },
     ],
   },
 };

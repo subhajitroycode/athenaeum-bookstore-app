@@ -2,10 +2,11 @@
 
 import { useCartStore } from "@/app/store/cart-store";
 import { Shield } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const SummaryCard = () => {
   const { cartItems } = useCartStore();
+  const router = useRouter();
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.book.price * item.quantity,
@@ -54,6 +55,7 @@ const SummaryCard = () => {
       <button
         className="w-full font-sans bg-(--accent) text-white p-5 cursor-pointer text-sm tracking-[0.08em] uppercase transition-all duration-300 font-medium mt-6 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-90 before:from-transparent before:via-[rgba(255,255,255,0.2)] before:to-transparent before:transition-[left] before:duration-500 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow-color)] hover:before:left-full"
         type="button"
+        onClick={() => router.push("/checkout")}
       >
         Proceed to Payment
       </button>
