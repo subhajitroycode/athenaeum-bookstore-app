@@ -27,15 +27,15 @@ const Search = () => {
 
   return (
     <>
-      <section className="max-w-350 mx-auto pt-16 px-12 pb-12 text-center animate-fade-in-scale">
-        <h1 className="font-playfair text-5xl/relaxed font-semibold mb-4 text-(--text-primary) tracking-wide">
+      <section className="max-w-350 mx-auto pt-12 px-8 pb-8 md:pt-16 md:px-12 md:pb-12 text-center animate-fade-in-scale">
+        <h1 className="font-playfair text-4xl md:text-5xl font-semibold mb-4 text-(--text-primary) tracking-wide">
           Discover Your Next Read
         </h1>
         <p className="text-xl text-(--text-secondary) mb-10 font-light">
           Explore our curated collection of timeless literature
         </p>
 
-        <form className="max-w-175 mx-auto relative" action={handleSearch}>
+        <form className="max-w-175 mx-auto sm:relative" action={handleSearch}>
           <input
             type="text"
             name="query"
@@ -46,7 +46,7 @@ const Search = () => {
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-(--accent) text-white py-[0.7rem] px-6 cursor-pointer text-[0.95rem] font-sans font-medium transition-all duration-300 hover:bg-(--accent-light)"
+            className="sm:absolute sm:right-2 sm:top-1/2 sm:-translate-y-1/2 bg-(--accent) text-white py-[0.7rem] px-6 mt-4 sm:mt-0 w-full sm:w-auto cursor-pointer text-[0.95rem] font-sans font-medium transition-all duration-300 hover:bg-(--accent-light)"
           >
             Search
           </button>

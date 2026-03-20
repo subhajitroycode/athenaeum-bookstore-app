@@ -43,7 +43,7 @@ const FeaturedList = () => {
 
   return (
     <section ref={sectionRef} className="max-w-350 mx-auto pt-8 px-12 pb-16">
-      <div className="flex justify-between items-center mb-10 pb-4 border-b border-(--border-color)">
+      <div className="flex flex-col sm:flex-row gap-3 justify-between items-center mb-10 pb-4 border-b border-(--border-color)">
         <h2 className="font-playfair text-[1.8rem] font-semibold text-(--text-primary)">
           Featured Collection
         </h2>
@@ -56,7 +56,7 @@ const FeaturedList = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-10 mb-12">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6 sm:gap-8 md:gap-10 mb-12">
             {currentBooks.map((book) => (
               <BookCard key={book.id} book={book} />
             ))}

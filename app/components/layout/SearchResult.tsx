@@ -12,7 +12,7 @@ const SearchResult = ({
 }) => {
   return (
     <section className="max-w-350 mx-auto pt-8 px-12 pb-16">
-      <div className="flex justify-between items-center mb-10 pb-4 border-b border-(--border-color)">
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-10 pb-4 border-b border-(--border-color)">
         <div className="flex-1">
           <h2 className="font-playfair text-[1.8rem] font-semibold text-(--text-primary) mb-[0.3rem]">
             Search Results for "{query}"
