@@ -9,6 +9,7 @@ import SearchComponent from "../_components/SearchComponent";
 import FilterBooks from "@/app/components/common/FilterBooks";
 import { filterBooks } from "@/app/utils/filter";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export async function generateMetadata({
   params,
@@ -61,12 +62,14 @@ export default async function page({
               {`${displayedBooks.length <= 1 ? "book" : "books"}`}
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-            <SearchComponent genre={genreString} />
-            <div className="self-start sm:self-auto">
-              <FilterBooks />
+          <Suspense fallback={null}>
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+              <SearchComponent genre={genreString} />
+              <div className="self-start sm:self-auto">
+                <FilterBooks />
+              </div>
             </div>
-          </div>
+          </Suspense>
         </div>
 
         <div className="pt-8 pb-10">

@@ -3,6 +3,7 @@ import BooksGrid from "./_components/BooksGrid";
 import SearchBooks from "./_components/SearchBooks";
 import { searchBooks } from "@/app/actions/books";
 import BookSearchResult from "./_components/BookSearchResult";
+import { Suspense } from "react";
 
 export default async function page({
   searchParams,
@@ -26,16 +27,20 @@ export default async function page({
       </div>
 
       <div className="py-4 px-6 md:px-8 md:py-6 lg:px-12 flex flex-col sm:flex-row items-stretch sm:items-center gap-6 flex-wrap bg-(--bg-secondary) border-y border-y-(--border-color)">
-        <FilterBooks />
-        <SearchBooks />
+        <Suspense fallback={null}>
+          <FilterBooks />
+          <SearchBooks />
+        </Suspense>
       </div>
 
       <div className="pt-4 px-6 pb-8 md:pt-6 md:px-8 md:pb-12 lg:pt-8 lg:px-12 lg:pb-16">
-        {query ? (
-          <BookSearchResult books={queryResults.books} query={query} />
-        ) : (
-          <BooksGrid />
-        )}
+        <Suspense fallback={null}>
+          {query ? (
+            <BookSearchResult books={queryResults.books} query={query} />
+          ) : (
+            <BooksGrid />
+          )}
+        </Suspense>
       </div>
     </section>
   );

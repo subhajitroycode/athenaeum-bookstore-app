@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { searchBooks } from "../../actions/books";
 import SearchResult from "./SearchResult";
 import FeaturedList from "./FeaturedList";
@@ -53,15 +53,19 @@ const Search = () => {
         </form>
       </section>
 
-      {results.query ? (
-        <SearchResult
-          books={results.books}
-          query={results.query}
-          clearSearch={clearSearch}
-        />
-      ) : (
-        <FeaturedList />
-      )}
+      <Suspense
+        fallback={<div className="flex justify-center items-center min-h-40" />}
+      >
+        {results.query ? (
+          <SearchResult
+            books={results.books}
+            query={results.query}
+            clearSearch={clearSearch}
+          />
+        ) : (
+          <FeaturedList />
+        )}
+      </Suspense>
     </>
   );
 };

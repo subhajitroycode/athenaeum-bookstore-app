@@ -3,6 +3,9 @@ import BookCard from "@/app/components/common/BookCard";
 import FilterBooks from "@/app/components/common/FilterBooks";
 import { filterBooks } from "@/app/utils/filter";
 import Link from "next/link";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export default async function page({
   searchParams,
@@ -58,7 +61,9 @@ export default async function page({
           </p>
         </div>
 
-        <FilterBooks />
+        <Suspense fallback={null}>
+          <FilterBooks />
+        </Suspense>
       </div>
       <div className="pt-8 pb-10">
         {favouriteBooks.length === 0 ? (
