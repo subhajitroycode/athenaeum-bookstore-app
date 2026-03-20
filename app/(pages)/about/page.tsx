@@ -114,12 +114,14 @@ export default function page() {
           Explore our curated collection and find the book that's been waiting
           for you.
         </p>
-        <Link
-          href={"/"}
-          className="font-sans bg-(--accent) text-white py-5 px-12 text-[0.95rem] tracking-[0.08em] uppercase transition-all duration-300 font-medium relative overflow-hidden before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-90 before:from-transparent before:via-[rgba(255,255,255,0.2)] before:to-transparent before:transition-[left] before:duration-500 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow)] hover:before:left-full"
-        >
-          Browse Our Collection
-        </Link>
+        <div className="flex justify-center">
+          <Link
+            href={"/"}
+            className="font-sans bg-(--accent) text-white py-5 px-12 text-[0.95rem] tracking-[0.08em] uppercase transition-all duration-300 font-medium relative overflow-hidden before:content-[''] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-linear-90 before:from-transparent before:via-[rgba(255,255,255,0.2)] before:to-transparent before:transition-[left] before:duration-500 hover:bg-(--accent-light) hover:-translate-y-0.5 hover:shadow-[0_8px_20px_var(--shadow)] hover:before:left-full"
+          >
+            Browse Our Collection
+          </Link>
+        </div>
       </div>
     </section>
   );
